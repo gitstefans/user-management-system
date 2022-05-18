@@ -1,0 +1,70 @@
+.userList-container {
+    width: 96%;
+    margin: 0 auto;
+    justify-items: center;
+    text-align: center;
+    /*novo*/
+}
+.table-wrapper {
+    padding-top: 10px;
+    border-radius: 6px;
+    margin-top: 40px;
+    height: 700px;
+    background-color: white;
+}
+.header-wrapper {
+    display: flex;
+    margin-top: 10px;
+}
+.header-wrapper div {
+    width: 8%;
+    height: 50px;
+    font-size: 14px;
+    font-weight: bold;
+    padding-top: 16px;
+    background-color: lightblue;
+    margin-bottom: 16px;
+}
+.header-item {
+    cursor: pointer;
+}
+.body-item {
+    display: flex;
+}
+.body-item div {
+    width: 8%;
+    height: 36px;
+    font-size: 14px;
+    padding-top: 8px;
+    background-color: white;
+    color: #4a5073;
+}
+.hr {
+    color: rgba(46,54,80,0.075);
+    width: 96%;
+}
+.edit-button,
+.delete-button {
+    width: 90px;
+    height: 40px;
+    background-color: rgb(49, 121, 253);
+    font-size: 13px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.assign-permissions {
+    width: 140px;
+    height: 40px;
+    background-color: rgb(49, 121, 253);
+    font-size: 13px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    margin-left: 10px;
+    cursor: pointer;
+}
