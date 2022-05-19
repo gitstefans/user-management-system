@@ -18,6 +18,7 @@ import java.util.Set;
 @Table(name = "Users")
 public class User {
     @Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotNull
@@ -32,7 +33,7 @@ public class User {
     @Column(nullable = false, name = "user_name", length = 30)
     private String userName;
 
-    @JsonIgnore
+    //@JsonIgnore
     @NotNull
     @Column(name = "password_hash", nullable = false)
     private String password;

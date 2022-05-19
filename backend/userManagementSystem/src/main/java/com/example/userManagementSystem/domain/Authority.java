@@ -24,6 +24,10 @@ public class Authority {
     private String code;
 
     @NotNull
+    @Column(nullable = false, name = "name", length = 30)
+    private String name;
+
+    @NotNull
     @Column(nullable = false, name = "description", length = 30)
     private String description;
 }

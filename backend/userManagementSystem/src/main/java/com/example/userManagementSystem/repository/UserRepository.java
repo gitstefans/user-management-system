@@ -7,20 +7,25 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByUserName(String username);
 
-    List<User> findAllByUserName(String username);
+    //Optional<User> findById(Long id);
 
-    List<User> findAllByFirstName(String firstname);
+    User findUserById(Long id);
 
-    List<User> findAllByLastName(String lastname);
+    Page<User> findAllByFirstName(String firstName, final Pageable pageable);
 
-    List<User> findAllByEmail(String email);
+    Page<User> findAllByLastName(String lastName, final Pageable pageable);
 
-    List<User> findAllByStatus(String status);
+    Page<User> findAllByUserName(String userName, final Pageable pageable);
+
+    Page<User> findAllByEmail(String email, final Pageable pageable);
+
+    Page<User> findAllByStatus(String status, final Pageable pageable);
 
     Page<User> findAll(final Pageable pageable);
 

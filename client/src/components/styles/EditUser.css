@@ -1,0 +1,8 @@
+.edit-user-container {
+    margin: 100px;
+}
+.edit-user-container input {
+    margin-left: 10px;
+    border: 1px solid black;
+    border-radius: 6px;
+}

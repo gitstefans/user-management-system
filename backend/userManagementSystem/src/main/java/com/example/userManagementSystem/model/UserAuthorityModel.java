@@ -1,5 +1,6 @@
 package com.example.userManagementSystem.model;
 
+import com.example.userManagementSystem.domain.Authority;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,13 +8,13 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
-public class UserModel {
-
+public class UserAuthorityModel {
     @JsonProperty("id")
     private Long id;
 
@@ -34,4 +35,7 @@ public class UserModel {
 
     @JsonProperty("status")
     private String status;
+
+    @JsonProperty("authority")
+    private List<String> authorities;
 }

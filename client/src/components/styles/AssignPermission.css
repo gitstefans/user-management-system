@@ -1,0 +1,12 @@
+.user-details-wrapper {
+    margin-top: 200px;
+    margin-left: 200px;
+    text-align: left;
+}
+.permissions-container {
+    display: flex;
+}
+.permissions {
+    margin-top: 200px;
+    margin-left: 100px;
+}
