@@ -6,3 +6,20 @@
     border: 1px solid black;
     border-radius: 6px;
 }
+.edit-user-btn {
+    width: 90px;
+    height: 40px;
+    background-color: rgb(49, 121, 253);
+    font-size: 13px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.input-edit {
+    border: 1px solid lightgray;
+    height: 36px;
+    margin-left: 10px;
+}

@@ -8,10 +8,7 @@ import com.example.userManagementSystem.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -40,9 +37,6 @@ public class UserService {
             //String encryptedPassword = passwordEncoder.encode(userModel.getPassword());
             user.setPassword(userModel.getPassword());
 
-            Set<Authority> authorities = new HashSet<>();
-            user.setAuthorities(authorities);
-
             userRepository.saveAndFlush(user);
 
         }
@@ -53,10 +47,8 @@ public class UserService {
         if(userModel != null) {
             user.setFirstName(userModel.getFirstName());
             user.setLastName(userModel.getLastName());
-            //user.setUserName(userModel.getUserName());
             user.setEmail(userModel.getEmail());
             user.setStatus(userModel.getStatus());
-            //user.setPassword(userModel.getPassword());
 
             userRepository.saveAndFlush(user);
 
@@ -66,9 +58,8 @@ public class UserService {
     public void addAuthority(final User user,final UserAuthorityModel userAuthorityModel) {
         Set<Authority> authorities = new HashSet<>();
         System.out.printf("USER " + userAuthorityModel);
-        //authorities.add(authority);
-        //user.setAuthorities(userAuthorityModel.getAuthorities());
-        //user.setAuthorities(authorities);
-        //userRepository.saveAndFlush(user);
+
+        user.setAuthorities(userAuthorityModel.getAuthority());
+        userRepository.saveAndFlush(user);
     }
 }

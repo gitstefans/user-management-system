@@ -12,6 +12,7 @@ const UserList = () => {
     const [number, setNumber] = useState(0);
     const [sortFilter, setSortFilter] = useState('');
     const [searchFilter, setSearchFilter] = useState('');
+    const [dropDown, setDropDown] = useState('');
     const [pagination, setPagination] = useState({
         size: 10,
         page: 0,
@@ -72,12 +73,52 @@ const UserList = () => {
         
     }, [number, sortFilter]);
 
+    // sortiranje
+
     const handleChange = (name) => (event) => {
         setSortFilter(name);
         setNumber(0);
     }
 
-    const handleSearchChange = (name) => (event) => {
+    // filter search input
+
+    const handleSearchChange = (event) => {
+        setSearchFilter(event.target.value);
+    };
+
+    // dropdown
+
+    const handleDropDown = (event) => {
+        console.log('EVENT', event.target.value);
+        setDropDown(event.target.value);
+    }
+
+    //dropdown form
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        console.log('sf', searchFilter, dropDown);
+        axios.get(`${baseUrl}/users/filter/${dropDown}?${dropDown}=${searchFilter}`)
+            .then(resp => {
+                setList(resp.data.content.map((i, index) => ({
+                    id: i.id,
+                    firstName: i.firstName,
+                    lastName: i.lastName,
+                    userName: i.userName,
+                    password: i.password,
+                    email: i.email,
+                    status: i.status,
+                    code: i.code,
+                    description: i.description
+                })));
+                setPagination({
+                    size: resp.data.size,
+                    page: resp.data.number,
+                    totalPages: resp.data.totalPages,
+                    totalElements: resp.data.totalElements,
+                    numberOfElements: resp.data.numberOfElements
+                })
+            }).catch(error => console.log(error));
     };
 
     function changeCurrentPage(e) {
@@ -117,10 +158,6 @@ const UserList = () => {
                     <div className='header-item' onClick={handleChange('email')}>Email</div>
                     <div className='header-item' onClick={handleChange('status')}>Status</div>
                     <div>Permissions</div>
-                    {/* <div>Description</div> */}
-                    {/* <div>Edit</div>
-                    <div>Delete</div>
-                    <div>Assign permissions</div> */}
                 </div>
                 <div className='body-wrapper'>
                     {!!list && list.map((i, index) => (
@@ -135,7 +172,7 @@ const UserList = () => {
                                 <div>{i.status}</div>
                                 <div>code</div>
                                 <Link to={`/edit-user/${i.id}`}><button className='edit-button'>Edit</button></Link>
-                                <button className='delete-button' onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) handleDelete(i.id) } }>Delete</button>
+                                <button className='delete-button' onClick={() => { if (window.confirm('Are you sure you want to delete this user?')) handleDelete(i.id) } }>Delete</button>
                                 <Link to={`/assign-permission/${i.id}`}><button className='assign-permissions'>Assign permissions</button></Link>
                             </div>
                             <hr className="hr"/>
@@ -145,17 +182,17 @@ const UserList = () => {
             </div>
             <div>
             <div className='search-filter-container'>
-                <form>
-                    <select className='filter-dropdown'>
-                        <option className="filter-option" defaultValue={'id'}>Default</option>
-                        <option className="filter-option">Firstname</option>
-                        <option className="filter-option">Lastname</option>
-                        <option className="filter-option">Username</option>
-                        <option className="filter-option">Email</option>
-                        <option className="filter-option">Status</option>
+                <form onSubmit={(e) => handleFormSubmit(e)}>
+                    <select className='filter-dropdown' onChange={handleDropDown}>
+                        <option className="filter-option" defaultValue={'id'}>Id</option>
+                        <option className="filter-option" value="firstName">Firstname</option>
+                        <option className="filter-option" value="lastName">Lastname</option>
+                        <option className="filter-option" value="userName">Username</option>
+                        <option className="filter-option" value="email">Email</option>
+                        <option className="filter-option" value="status">Status</option>
                     </select>
-                    <input type='text' name='searchFilter' value={searchFilter} onChange={handleSearchChange} required />
-                    <button>Search</button>
+                    <input className='search-input' type='text' value={searchFilter} onChange={handleSearchChange} />
+                    <button className='search-button'>Search</button>
                 </form>
                 
             </div>

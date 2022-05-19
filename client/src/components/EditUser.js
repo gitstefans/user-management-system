@@ -52,11 +52,11 @@ const EditUser = () => {
         <div className="edit-user-container">
             <h3>Edit user</h3>
             <form onSubmit={(e) => handleSubmit(e)}>
-                <input type='text' name='firstName' value={user.firstName} onChange={handleChange} required />
-                <input type='text' name='lastName' value={user.lastName} onChange={handleChange} required />
-                <input type='text' name='email' value={user.email} onChange={handleChange} required />
-                <input type='text' name='status' value={user.status} onChange={handleChange} required />
-                <button>Save</button>
+                <input className="input-edit" type='text' name='firstName' value={user.firstName} onChange={handleChange} required />
+                <input className="input-edit" type='text' name='lastName' value={user.lastName} onChange={handleChange} required />
+                <input className="input-edit" type='text' name='email' value={user.email} onChange={handleChange} required />
+                <input className="input-edit" type='text' name='status' value={user.status} onChange={handleChange} required />
+                <button className="edit-user-btn">Save</button>
             </form>
         </div>
     )

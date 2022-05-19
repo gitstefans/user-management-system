@@ -15,7 +15,7 @@
 .header-wrapper {
     display: flex;
     margin-top: 10px;
-    background-color: lightblue;
+    background-color: rgb(101, 180, 255);
     margin-bottom: 10px;
 }
 .header-wrapper div {
@@ -24,7 +24,7 @@
     font-size: 14px;
     font-weight: bold;
     padding-top: 20px;
-    background-color: lightblue;
+    background-color: rgb(101, 180, 255);
     margin-bottom: 16px;
 }
 .header-item {
@@ -75,7 +75,7 @@
     height: 40px;
     position: absolute;
     left: 120px;
-    margin-top: 20px;
+    margin-top: 30px;
     background-color: rgb(49, 121, 253);
     font-size: 13px;
     border: none;
@@ -88,4 +88,27 @@
     position: absolute;
     margin-left: 300px;
     margin-top: 30px;
+}
+.filter-dropdown {
+    background-color: white;
+    border: 2px solid lightgray;
+    width: 120px;
+    height: 36px;
+}
+.search-input {
+    border: 1px solid lightgray;
+    height: 36px;
+    margin-left: 10px;
+}
+.search-button {
+    width: 90px;
+    height: 40px;
+    background-color: rgb(49, 121, 253);
+    font-size: 13px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    margin-left: 10px;
+    cursor: pointer;
 }

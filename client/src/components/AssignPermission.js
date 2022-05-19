@@ -45,9 +45,26 @@ const AssignPermission = () => {
         e.preventDefault();
         const checkedBoxes = document.getElementsByName('check-permission');
         let array = [];
+
         for(let i = 0; i < checkedBoxes.length; i++) {
             if(checkedBoxes[i].checked === true)  {
-                array.push(checkedBoxes[i].value);
+                console.log(checkedBoxes[i].value);
+                switch(i) {
+                    case 0:
+                        array.push({id: i+1, code: i+1, description: 'Read a file'});
+                        break;
+                    case 1:
+                        array.push({id: i+1, code: i+1, description: ' Write or modify a file'});
+                        break;
+                    case 2:
+                        array.push({id: i+1, code: i+1, description: 'Delete a file'});
+                        break;
+                    case 3:
+                        array.push({id: i+1, code: i+1, description: 'Create a file'});
+                        break;
+                    default:
+                        break;
+                }
             }
         }
         setUser({ ...user, authority: [...array] });
@@ -56,7 +73,7 @@ const AssignPermission = () => {
     useEffect(() => {
            axios.post('http://localhost:8080/users/add-authorities', user)
             .then((resp) => {
-                console.log('resp', resp);
+                console.log('ok');
             }).catch(error => console.log(error)); 
     }, [user.authority]);
 
@@ -74,11 +91,12 @@ const AssignPermission = () => {
                 </div>}
             </div>
             <div className="permissions">
-                <h3>Permissions</h3>
-                <form onSubmit={(e) => submitForm(e)}>
+                <h3 className="perm-title">Permissions</h3>
+                
+                <form className="permission-form" onSubmit={(e) => submitForm(e)}>
                     {!!roles && roles.map((i, index) => (
                         <div className="perm-item" key={index+10000}>
-                            <input type='checkbox' name='check-permission' value={i.code} />
+                            <input type='checkbox' name='check-permission' value={i.id} />
                             <div className="">Id: {i.id}</div>
                             <div>Code: {i.code}</div>
                             <div>Description: {i.description}</div>

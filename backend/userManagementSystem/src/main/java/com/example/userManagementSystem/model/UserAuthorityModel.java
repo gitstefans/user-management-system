@@ -1,12 +1,14 @@
 package com.example.userManagementSystem.model;
 
 import com.example.userManagementSystem.domain.Authority;
+import com.example.userManagementSystem.domain.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -37,5 +39,5 @@ public class UserAuthorityModel {
     private String status;
 
     @JsonProperty("authority")
-    private List<String> authorities;
+    private List<Authority> authority;
 }

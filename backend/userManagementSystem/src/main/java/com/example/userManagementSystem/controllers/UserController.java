@@ -64,7 +64,6 @@ public class UserController {
     @GetMapping("/users/{id}")
     public User findUserById(@PathVariable("id") long id) {
         return userRepository.findUserById(id);
-        //return userRepository.findById(id);
     }
 
     @PostMapping("/users/add-user")
@@ -87,10 +86,12 @@ public class UserController {
         userRepository.deleteById(id);
     }
 
+
     @PostMapping("users/add-authorities")
     public void addAuthorities(@RequestBody final UserAuthorityModel userAuthorityModel) {
         User user = userRepository.findUserById(userAuthorityModel.getId());
-        if(userAuthorityModel != null) {
+
+        if(user != null) {
             userService.addAuthority(user, userAuthorityModel);
         }
     }
@@ -108,8 +109,10 @@ public class UserController {
         return ResponseEntity.ok(authorityRepository.findAll(pageRequest));
     }
 
-    @GetMapping("/users/filter/firstname")
-    public ResponseEntity getUsersByFirstName(final Pageable pageable, final String name) {
+    /** filtering **/
+
+    @GetMapping("/users/filter/firstName")
+    public ResponseEntity getUsersByFirstName(final Pageable pageable, final String firstName) {
         PageRequest pageRequest;
 
         if(pageable == null) {
@@ -117,16 +120,17 @@ public class UserController {
         } else {
             pageRequest = PageRequest.of(pageable.getPageNumber(), DEFAULT_PAGE_SIZE);
         }
+            System.out.printf("USER FIRST" + userRepository.findAllByFirstName(firstName, pageable));
+        if(firstName != null) {
 
-        if(name != null) {
-            return ResponseEntity.ok(userRepository.findAllByFirstName(name, pageable));
+            return ResponseEntity.ok(userRepository.findAllByFirstName(firstName, pageable));
         }
 
         return ResponseEntity.ok("User not found");
     }
 
-    @GetMapping("/users/filter/lastname")
-    public ResponseEntity getUsersByLastName(final Pageable pageable, final String name) {
+    @GetMapping("/users/filter/lastName")
+    public ResponseEntity getUsersByLastName(final Pageable pageable, final String lastName) {
         PageRequest pageRequest;
 
         if(pageable == null) {
@@ -135,15 +139,15 @@ public class UserController {
             pageRequest = PageRequest.of(pageable.getPageNumber(), DEFAULT_PAGE_SIZE);
         }
 
-        if(name != null) {
-            return ResponseEntity.ok(userRepository.findAllByLastName(name, pageable));
+        if(lastName != null) {
+            return ResponseEntity.ok(userRepository.findAllByLastName(lastName, pageable));
         }
 
         return ResponseEntity.ok("User not found");
     }
 
-    @GetMapping("/users/filter/username")
-    public ResponseEntity getUsersByUserName(final Pageable pageable, final String name) {
+    @GetMapping("/users/filter/userName")
+    public ResponseEntity getUsersByUserName(final Pageable pageable, final String userName) {
         PageRequest pageRequest;
 
         if(pageable == null) {
@@ -152,15 +156,15 @@ public class UserController {
             pageRequest = PageRequest.of(pageable.getPageNumber(), DEFAULT_PAGE_SIZE);
         }
 
-        if(name != null) {
-            return ResponseEntity.ok(userRepository.findAllByUserName(name, pageable));
+        if(userName != null) {
+            return ResponseEntity.ok(userRepository.findAllByUserName(userName, pageable));
         }
 
         return ResponseEntity.ok("User not found");
     }
 
     @GetMapping("/users/filter/email")
-    public ResponseEntity getUsersByEmail(final Pageable pageable, final String name) {
+    public ResponseEntity getUsersByEmail(final Pageable pageable, final String email) {
         PageRequest pageRequest;
 
         if(pageable == null) {
@@ -169,15 +173,15 @@ public class UserController {
             pageRequest = PageRequest.of(pageable.getPageNumber(), DEFAULT_PAGE_SIZE);
         }
 
-        if(name != null) {
-            return ResponseEntity.ok(userRepository.findAllByEmail(name, pageable));
+        if(email != null) {
+            return ResponseEntity.ok(userRepository.findAllByEmail(email, pageable));
         }
 
         return ResponseEntity.ok("User not found");
     }
 
     @GetMapping("/users/filter/status")
-    public ResponseEntity getUsersByStatus(final Pageable pageable, final String name) {
+    public ResponseEntity getUsersByStatus(final Pageable pageable, final String status) {
         PageRequest pageRequest;
 
         if(pageable == null) {
@@ -186,8 +190,8 @@ public class UserController {
             pageRequest = PageRequest.of(pageable.getPageNumber(), DEFAULT_PAGE_SIZE);
         }
 
-        if(name != null) {
-            return ResponseEntity.ok(userRepository.findAllByStatus(name, pageable));
+        if(status != null) {
+            return ResponseEntity.ok(userRepository.findAllByStatus(status, pageable));
         }
 
         return ResponseEntity.ok("User not found");

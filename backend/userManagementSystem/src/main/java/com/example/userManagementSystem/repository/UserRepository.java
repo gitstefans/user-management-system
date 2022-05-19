@@ -17,6 +17,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findUserById(Long id);
 
+    List<User> findByFirstName(String firstName);
+
     Page<User> findAllByFirstName(String firstName, final Pageable pageable);
 
     Page<User> findAllByLastName(String lastName, final Pageable pageable);

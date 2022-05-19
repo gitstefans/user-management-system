@@ -28,13 +28,13 @@ const CreateUser = () => {
         <div className="create-user-container">
             <h3>Create new user</h3>
             <form onSubmit={(e) => handleSubmit(e)}>
-                <input type='text' name='firstName' value={createUser.firstName} onChange={handleChange} placeholder='Firstname' required />
-                <input type='text' name='lastName' value={createUser.lastName} onChange={handleChange} placeholder='Lastname' required />
-                <input type='text' name='userName' value={createUser.userName} onChange={handleChange} placeholder='Username' required />
-                <input type='text' name='password' value={createUser.password} onChange={handleChange} placeholder='Password' required />
-                <input type='text' name='email' value={createUser.email} onChange={handleChange} placeholder='Email' required />
-                <input type='text' name='status' value={createUser.status} onChange={handleChange} placeholder='Status' required />
-                <button>Save</button>
+                <input className='input-create' type='text' name='firstName' value={createUser.firstName} onChange={handleChange} placeholder='Firstname' required />
+                <input className='input-create' type='text' name='lastName' value={createUser.lastName} onChange={handleChange} placeholder='Lastname' required />
+                <input className='input-create' type='text' name='userName' value={createUser.userName} onChange={handleChange} placeholder='Username' required />
+                <input className='input-create' type='text' name='password' value={createUser.password} onChange={handleChange} placeholder='Password' required />
+                <input className='input-create' type='text' name='email' value={createUser.email} onChange={handleChange} placeholder='Email' required />
+                <input className='input-create' type='text' name='status' value={createUser.status} onChange={handleChange} placeholder='Status' required />
+                <button className='save-btn'>Save</button>
             </form>
         </div>
     )

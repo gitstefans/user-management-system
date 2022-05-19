@@ -8,7 +8,9 @@ import lombok.ToString;
 import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -47,12 +49,14 @@ public class User {
     private String status;
 
     @JsonIgnore
-    @OneToMany
+    @ManyToMany
     @JoinTable(
             name = "User_Authority",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role", referencedColumnName = "code")}
     )
     @BatchSize(size = 20)
-    private Set<Authority> authorities = new HashSet<>();
+    private List<Authority> authorities = new ArrayList<>();
+    //private Set<Authority> authorities = new HashSet<>();
+
 }
