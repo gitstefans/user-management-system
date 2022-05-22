@@ -2,8 +2,11 @@ import react, { useState } from 'react';
 import axios from 'axios';
 import baseUrl from '../config';
 import './styles/CreateUser.css';
+import { useNavigate } from "react-router-dom";
+import validator from 'validator';
 
 const CreateUser = () => {
+    const [errorMessage, setErrorMessage] = useState('');
     const [createUser, setCreateUser] = useState({
         firstName: '',
         lastName: '',
@@ -12,6 +15,7 @@ const CreateUser = () => {
         email: '',
         status: ''
     });
+    let navigate = useNavigate();
 
     const handleChange = (event) => {
         setCreateUser({ ...createUser, [event.target.name]: event.target.value });
@@ -19,8 +23,21 @@ const CreateUser = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setErrorMessage('');
+
+        if(!validator.isEmail(createUser.email)) {
+            setErrorMessage('Enter valid email address!');
+            return;
+        }
+
+        if(createUser.password.length < 6) {
+            setErrorMessage('Password is too short, enter 6 or more characters!');
+            return;
+        }
+
         axios.post(`${baseUrl}/users/add-user`, createUser)
             .then((resp) => {
+                return navigate("/");
             }).catch(error => console.log(error));   
     }
 
@@ -36,6 +53,7 @@ const CreateUser = () => {
                 <input className='input-create' type='text' name='status' value={createUser.status} onChange={handleChange} placeholder='Status' required />
                 <button className='save-btn'>Save</button>
             </form>
+            <div className='error-message'>{errorMessage}</div>
         </div>
     )
 }

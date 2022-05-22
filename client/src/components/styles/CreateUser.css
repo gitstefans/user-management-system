@@ -23,3 +23,6 @@
     margin-left: 10px;
     cursor: pointer;
 }
+.error-message {
+    color: red;
+}

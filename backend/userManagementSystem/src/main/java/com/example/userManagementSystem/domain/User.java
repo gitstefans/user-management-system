@@ -8,6 +8,7 @@ import lombok.ToString;
 import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.Set;
 @ToString
 @Entity
 @Table(name = "Users")
-public class User {
+public class User implements Serializable {
     @Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -48,15 +49,12 @@ public class User {
     @Column(nullable = false, name = "status", length = 30)
     private String status;
 
-    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "User_Authority",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role", referencedColumnName = "code")}
     )
-    @BatchSize(size = 20)
     private List<Authority> authorities = new ArrayList<>();
-    //private Set<Authority> authorities = new HashSet<>();
 
 }

@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import {Redirect} from 'react-router-dom';
 import baseUrl from '../config';
 import './styles/EditUser.css';
+import { useNavigate } from "react-router-dom";
 
 const EditUser = () => {
     const params = useParams();
@@ -16,6 +16,8 @@ const EditUser = () => {
         email: '',
         status: ''
     });
+
+    let navigate = useNavigate();
 
     useEffect(() => {
         axios.get(`${baseUrl}/users/${params.id}`).then((resp) => {
@@ -36,7 +38,6 @@ const EditUser = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('user', user);
         axios.put(`${baseUrl}/users/edit-user`, user)
             .then((resp) => {
                 setRedirectToReferrer(true);
@@ -45,7 +46,7 @@ const EditUser = () => {
     }
 
     if (redirectToReferrer) {
-        return (<Redirect to='/' />)
+        return navigate("/");
     }
 
     return (

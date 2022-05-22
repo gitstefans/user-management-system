@@ -19,7 +19,7 @@
     margin-bottom: 10px;
 }
 .header-wrapper div {
-    width: 8%;
+    width: 9%;
     height: 50px;
     font-size: 14px;
     font-weight: bold;
@@ -34,7 +34,7 @@
     display: flex;
 }
 .body-item div {
-    width: 8%;
+    width: 9%;
     height: 36px;
     font-size: 14px;
     padding-top: 8px;
@@ -55,7 +55,7 @@
     border-radius: 6px;
     color: white;
     font-weight: bold;
-    margin-left: 10px;
+    margin-left: 30px;
     cursor: pointer;
 }
 .assign-permissions {
@@ -67,7 +67,7 @@
     border-radius: 6px;
     color: white;
     font-weight: bold;
-    margin-left: 10px;
+    margin-left: 30px;
     cursor: pointer;
 }
 .create-new-user {
@@ -111,4 +111,7 @@
     font-weight: bold;
     margin-left: 10px;
     cursor: pointer;
+}
+.error-message {
+    color: red;
 }

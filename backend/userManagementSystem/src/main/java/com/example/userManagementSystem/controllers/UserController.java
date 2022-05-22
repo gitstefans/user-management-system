@@ -68,7 +68,11 @@ public class UserController {
 
     @PostMapping("/users/add-user")
     public void addUser(@RequestBody final UserModel userModel) {
-        userService.saveUser(userModel);
+
+        if(userModel != null) {
+            userService.saveUser(userModel);
+        }
+
     }
 
     @PutMapping("/users/edit-user")
@@ -120,7 +124,7 @@ public class UserController {
         } else {
             pageRequest = PageRequest.of(pageable.getPageNumber(), DEFAULT_PAGE_SIZE);
         }
-            System.out.printf("USER FIRST" + userRepository.findAllByFirstName(firstName, pageable));
+
         if(firstName != null) {
 
             return ResponseEntity.ok(userRepository.findAllByFirstName(firstName, pageable));

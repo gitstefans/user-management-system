@@ -1,8 +1,20 @@
 .user-details-wrapper {
+    width: 240px;
     margin-top: 200px;
     margin-left: 200px;
     text-align: left;
     font-size: 16px;
+    border: 1px solid lightgray;
+    border-radius: 6px;
+}
+.user-details-wrapper h3 {
+    padding: 10px;
+}
+.user-details {
+    padding: 10px;
+}
+.user-details div {
+    margin-top: 10px;
 }
 .permissions-container {
     display: flex;
@@ -12,20 +24,25 @@
     margin-left: 100px;
 }
 .permission-form {
-    display: flex;
+    display: grid;
     font-size: 14px;
 }
 .perm-item {
     margin-right: 30px;
-    width: 160px;
+    width: 220px;
     text-align: left;
     border: 1px solid lightgray;
+    border-radius: 6px;
+}
+.perm-item div, input {
+    margin-top: 10px;
+    margin-left: 6px;
+    height: 40px;
 }
 .add-permissions {
     width: 160px;
     height: 40px;
     margin-top: 40px;
-    margin-left: 20px;
     background-color: rgb(80, 126, 252);
     color: white;
     border: none;
@@ -33,4 +50,7 @@
 }
 .perm-title {
     text-align: left;
+}
+.roles-container {
+    display: flex;
 }
