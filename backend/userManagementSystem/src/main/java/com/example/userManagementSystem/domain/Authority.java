@@ -9,13 +9,15 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Getter
 @Setter
 @ToString
 @Entity
 @Table(name = "Authority")
-public class Authority {
+public class Authority implements Serializable {
+
     @Id
     private long id;
 

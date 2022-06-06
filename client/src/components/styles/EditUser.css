@@ -1,13 +1,13 @@
 .edit-user-container {
     margin: 100px;
 }
-.edit-user-container input {
+/* .edit-user-container input {
     margin-left: 10px;
     border: 1px solid black;
-    border-radius: 6px;
-}
+    border-radius: 6px; 
+} */
 .edit-user-btn {
-    width: 90px;
+    width: 100%;
     height: 40px;
     background-color: rgb(49, 121, 253);
     font-size: 13px;
@@ -15,11 +15,31 @@
     border-radius: 6px;
     color: white;
     font-weight: bold;
-    margin-left: 10px;
     cursor: pointer;
+}
+.edit-user-wrapper {
+    border: 1px solid lightgray;
+    width: 500px;
+    height: 600px;
+    margin: 100px auto;
+    box-shadow: 0.5px 0.5px 3px #d4d4d4;
+    border-radius: 8px;
 }
 .input-edit {
     border: 1px solid lightgray;
-    height: 36px;
-    margin-left: 10px;
+    height: 40px;
+    border-radius: 6px;
+    width: 400px;
+    padding-left: 10px;
+}
+.edit-user-form {
+    display: grid;
+    width: 400px;
+    height: 300px;
+    margin: 0 auto;
+}
+.edit-user-title {
+    padding-top: 60px;
+    margin-bottom: 100px;
+    height: 80px;
 }

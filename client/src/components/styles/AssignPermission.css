@@ -1,36 +1,82 @@
 .user-details-wrapper {
-    margin-top: 200px;
-    margin-left: 200px;
+    width: 240px;
+    height: 310px;
+    margin: 190px auto;
+    /* margin-top: 190px;
+    margin-left: 200px; */
     text-align: left;
     font-size: 16px;
+    border: 1px solid lightgray;
+    border-radius: 6px;
+}
+.user-details-wrapper h3 {
+    padding: 10px;
+}
+.user-details {
+    padding: 10px;
+}
+.user-details div {
+    margin-top: 14px;
 }
 .permissions-container {
     display: flex;
+    margin: 0 auto;
+    width: 1200px;
 }
 .permissions {
-    margin-top: 200px;
-    margin-left: 100px;
+    margin: 200px auto;
+    /* margin-top: 200px;
+    margin-left: 40px; */
 }
 .permission-form {
-    display: flex;
+    display: grid;
     font-size: 14px;
 }
 .perm-item {
     margin-right: 30px;
-    width: 160px;
+    height: 50px;
+    width: 800px;
     text-align: left;
     border: 1px solid lightgray;
+    border-radius: 6px;
+    display: flex;
+    position: relative;
+}
+.perm-item div input {
+    margin-top: 10px;
+    margin-left: 6px;
+    height: 40px;
 }
 .add-permissions {
     width: 160px;
     height: 40px;
-    margin-top: 40px;
-    margin-left: 20px;
+    margin-top: 22px;
     background-color: rgb(80, 126, 252);
     color: white;
     border: none;
     border-radius: 6px;
+    cursor: pointer;
 }
 .perm-title {
     text-align: left;
+}
+.roles-container {
+    display: grid;
+    position: relative;
+}
+.perm-info {
+    padding-top: 14px;
+    margin-left: 10px;
+    width: 20%;
+}
+.perm-info-desc {
+    padding-top: 14px;
+    margin-left: 10px;
+    width: 40%;
+}
+.check-permission {
+    margin-top: 16px;
+    right: 10px;
+    position: absolute;
+    cursor: pointer;
 }

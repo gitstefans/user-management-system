@@ -5,13 +5,20 @@ import com.example.userManagementSystem.domain.User;
 import com.example.userManagementSystem.model.UserAuthorityModel;
 import com.example.userManagementSystem.model.UserModel;
 import com.example.userManagementSystem.repository.UserRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.Errors;
 
+import javax.persistence.PersistenceException;
+import javax.persistence.RollbackException;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 import java.util.*;
 
 @Service
 public class UserService {
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -20,44 +27,93 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void saveUser(final UserModel userModel) {
+    public ResponseEntity saveUser(final UserModel userModel) throws Exception {
 
         if(userModel != null) {
-            //long uuid = UUID.randomUUID().getMostSignificantBits();
-            //UUID uuid = UUID.randomUUID();
-            Random rd = new Random();
-            long id = rd.nextInt();
-            User user = new User();
-            user.setId(id);
-            user.setFirstName(userModel.getFirstName());
-            user.setLastName(userModel.getLastName());
-            user.setUserName(userModel.getUserName());
-            user.setEmail(userModel.getEmail());
-            user.setStatus(userModel.getStatus());
-            //String encryptedPassword = passwordEncoder.encode(userModel.getPassword());
-            user.setPassword(userModel.getPassword());
+            User userExist = userRepository.findByUserName(userModel.getUserName());
 
-            userRepository.saveAndFlush(user);
+            if(userExist != null) {
+                return ResponseEntity.badRequest().body("Username already exists!");
+            } else {
 
+                if(userModel.getFirstName() == null || userModel.getFirstName().isEmpty() || userModel.getFirstName().isBlank()) {
+                    return ResponseEntity.badRequest().body("Firstname is required!");
+                }
+                if(userModel.getLastName() == null || userModel.getLastName().isEmpty() || userModel.getLastName().isBlank()) {
+                    return ResponseEntity.badRequest().body("Lastname is required!");
+                }
+                if(userModel.getUserName() == null || userModel.getUserName().isEmpty() || userModel.getUserName().isBlank()) {
+                    return ResponseEntity.badRequest().body("Username is required!");
+                }
+                if(userModel.getPassword() == null || userModel.getPassword().isEmpty() || userModel.getPassword().isBlank()) {
+                    return ResponseEntity.badRequest().body("Password is required!");
+                }
+                if(userModel.getEmail() == null || userModel.getEmail().isEmpty() || userModel.getEmail().isBlank()) {
+                    return ResponseEntity.badRequest().body("Email is required!");
+                }
+                if(userModel.getStatus() == null || userModel.getStatus().isEmpty() || userModel.getStatus().isBlank()) {
+                    return ResponseEntity.badRequest().body("Status is required!");
+                }
+
+                //long uuid = UUID.randomUUID().getMostSignificantBits();
+                //UUID uuid = UUID.randomUUID();
+                Random rd = new Random();
+                long id = rd.nextInt();
+                User user = new User();
+                user.setId(id);
+                user.setFirstName(userModel.getFirstName().trim());
+                user.setLastName(userModel.getLastName().trim());
+                user.setUserName(userModel.getUserName().trim());
+                user.setEmail(userModel.getEmail().trim());
+                user.setStatus(userModel.getStatus().trim());
+                //String encryptedPassword = passwordEncoder.encode(userModel.getPassword());
+                user.setPassword(userModel.getPassword().trim());
+
+                try {
+                    userRepository.saveAndFlush(user);
+                } catch (PersistenceException e) {
+                    return ResponseEntity.badRequest().body(e.getMessage());
+                }
+            }
         }
+        return ResponseEntity.ok("User saved successfully!");
     }
 
-    public void editUser(final UserModel userModel, final User user) {
+    public ResponseEntity editUser(final UserModel userModel) {
+
+        User user = userRepository.findUserById(userModel.getId());
+
+        if(user == null) {
+            return ResponseEntity.badRequest().body("User not found!");
+        }
+
+        if(userModel.getFirstName() == null || userModel.getFirstName().isEmpty() || userModel.getFirstName().isBlank()) {
+            return ResponseEntity.badRequest().body("Firstname is required!");
+        }
+        if(userModel.getLastName() == null || userModel.getLastName().isEmpty() || userModel.getLastName().isBlank()) {
+            return ResponseEntity.badRequest().body("Lastname is required!");
+        }
+        if(userModel.getEmail() == null || userModel.getEmail().isEmpty() || userModel.getEmail().isBlank()) {
+            return ResponseEntity.badRequest().body("Email is required!");
+        }
+        if(userModel.getStatus() == null || userModel.getStatus().isEmpty() || userModel.getStatus().isBlank()) {
+            return ResponseEntity.badRequest().body("Status is required!");
+        }
 
         if(userModel != null) {
-            user.setFirstName(userModel.getFirstName());
-            user.setLastName(userModel.getLastName());
-            user.setEmail(userModel.getEmail());
-            user.setStatus(userModel.getStatus());
+            
+            user.setFirstName(userModel.getFirstName().trim());
+            user.setLastName(userModel.getLastName().trim());
+            user.setEmail(userModel.getEmail().trim());
+            user.setStatus(userModel.getStatus().trim());
 
             userRepository.saveAndFlush(user);
-
         }
+
+        return ResponseEntity.ok("User edited successfully!");
     }
 
     public void addAuthority(final User user,final UserAuthorityModel userAuthorityModel) {
-        Set<Authority> authorities = new HashSet<>();
-        System.out.printf("USER " + userAuthorityModel);
 
         user.setAuthorities(userAuthorityModel.getAuthority());
         userRepository.saveAndFlush(user);

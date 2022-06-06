@@ -11,14 +11,15 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class AuthorityModel {
+
     @JsonProperty("id")
     private Long id;
 
     @JsonProperty("code")
     private String code;
 
-//    @JsonProperty("name")
-//    private String name;
+    @JsonProperty("name")
+    private String name;
 
     @JsonProperty("description")
     private String description;

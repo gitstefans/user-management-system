@@ -1,22 +1,19 @@
-package com.example.userManagementSystem.model;
+package com.example.userManagementSystem.dto;
 
 import com.example.userManagementSystem.domain.Authority;
-import com.example.userManagementSystem.domain.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
-public class UserAuthorityModel {
+public class UserDTO {
 
     @JsonProperty("id")
     private Long id;

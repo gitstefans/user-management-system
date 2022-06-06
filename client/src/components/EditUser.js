@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import {Redirect} from 'react-router-dom';
 import baseUrl from '../config';
 import './styles/EditUser.css';
+import { useNavigate } from "react-router-dom";
 
 const EditUser = () => {
+    let navigate = useNavigate();
     const params = useParams();
-    const [redirectToReferrer, setRedirectToReferrer] = useState(false);
     const [user, setUser] = useState({
         id: null,
         firstName: '',
@@ -36,28 +36,25 @@ const EditUser = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('user', user);
         axios.put(`${baseUrl}/users/edit-user`, user)
             .then((resp) => {
-                setRedirectToReferrer(true);
+                navigate("/");
             }).catch(error => console.log(error));
         
     }
 
-    if (redirectToReferrer) {
-        return (<Redirect to='/' />)
-    }
-
     return (
         <div className="edit-user-container">
-            <h3>Edit user</h3>
-            <form onSubmit={(e) => handleSubmit(e)}>
-                <input className="input-edit" type='text' name='firstName' value={user.firstName} onChange={handleChange} required />
-                <input className="input-edit" type='text' name='lastName' value={user.lastName} onChange={handleChange} required />
-                <input className="input-edit" type='text' name='email' value={user.email} onChange={handleChange} required />
-                <input className="input-edit" type='text' name='status' value={user.status} onChange={handleChange} required />
-                <button className="edit-user-btn">Save</button>
-            </form>
+            <div className="edit-user-wrapper">
+                <h3 className="edit-user-title">Edit user</h3>
+                <form className="edit-user-form" onSubmit={(e) => handleSubmit(e)}>
+                    <input className="input-edit" type='text' name='firstName' value={user.firstName} onChange={handleChange} required />
+                    <input className="input-edit" type='text' name='lastName' value={user.lastName} onChange={handleChange} required />
+                    <input className="input-edit" type='text' name='email' value={user.email} onChange={handleChange} required />
+                    <input className="input-edit" type='text' name='status' value={user.status} onChange={handleChange} required />
+                    <button className="edit-user-btn">Save</button>
+                </form>
+            </div>
         </div>
     )
 }
