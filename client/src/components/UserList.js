@@ -23,9 +23,9 @@ const UserList = () => {
     })
 
     useEffect(() => {
-        axios.get(`${baseUrl}/users`)
+        axios.get(`${baseUrl}/users/all-users`)
             .then((resp) => {
-                setList(resp.data.content.map((i, index) => ({
+                setList(resp.data.data.map((i, index) => ({
                     id: i.id,
                     firstName: i.firstName,
                     lastName: i.lastName,
@@ -33,15 +33,15 @@ const UserList = () => {
                     password: i.password,
                     email: i.email,
                     status: i.status,
-                    authorities: [...i.authorities],
-                    code: i.authorities.map(x => x.code)
+                    authorities: [...i.authority],
+                    code: i.authority.map(x => x.code)
                 })));
                 setPagination({
-                    size: resp.data.size,
-                    page: resp.data.number,
-                    totalPages: resp.data.totalPages,
-                    totalElements: resp.data.totalElements,
-                    numberOfElements: resp.data.numberOfElements
+                    size: resp.data.paginationDTO.size,
+                    page: resp.data.paginationDTO.number,
+                    totalPages: resp.data.paginationDTO.totalPages,
+                    totalElements: resp.data.paginationDTO.totalElements,
+                    numberOfElements: resp.data.paginationDTO.numberOfElements
                 })
             })
             .catch(e => console.log(e));
@@ -50,9 +50,9 @@ const UserList = () => {
 
     useEffect(() => {
         setErrorMessage('');
-        axios.get(`${baseUrl}/users?page=${number}&sort=${sortFilter}`)
+        axios.get(`${baseUrl}/users/all-users?page=${number}&sort=${sortFilter}`)
             .then((resp) => {
-                setList(resp.data.content.map((i, index) => ({
+                setList(resp.data.data.map((i, index) => ({
                     id: i.id,
                     firstName: i.firstName,
                     lastName: i.lastName,
@@ -60,15 +60,15 @@ const UserList = () => {
                     password: i.password,
                     email: i.email,
                     status: i.status,
-                    authorities: [...i.authorities],
-                    code: i.authorities.map(x => x.code)
+                    authorities: [...i.authority],
+                    code: i.authority.map(x => x.code)
                 })));
                 setPagination({
-                    size: resp.data.size,
-                    page: resp.data.number,
-                    totalPages: resp.data.totalPages,
-                    totalElements: resp.data.totalElements,
-                    numberOfElements: resp.data.numberOfElements
+                    size: resp.data.paginationDTO.size,
+                    page: resp.data.paginationDTO.number,
+                    totalPages: resp.data.paginationDTO.totalPages,
+                    totalElements: resp.data.paginationDTO.totalElements,
+                    numberOfElements: resp.data.paginationDTO.numberOfElements
                 })
             })
             .catch(e => console.log(e));
@@ -103,7 +103,8 @@ const UserList = () => {
         if(!!searchFilter) {
             axios.get(`${baseUrl}/users/filter/${dropDown}?${dropDown}=${searchFilter}`)
             .then(resp => {
-                setList(resp.data.content.map((i, index) => ({
+                console.log('resp', resp);
+                setList(resp.data.data.map((i, index) => ({
                     id: i.id,
                     firstName: i.firstName,
                     lastName: i.lastName,
@@ -111,17 +112,17 @@ const UserList = () => {
                     password: i.password,
                     email: i.email,
                     status: i.status,
-                    authorities: [...i.authorities],
-                    code: i.authorities.map(x => x.code)
+                    authorities: [...i.authority],
+                    code: i.authority.map(x => x.code)
                 })));
                 setPagination({
-                    size: resp.data.size,
-                    page: resp.data.number,
-                    totalPages: resp.data.totalPages,
-                    totalElements: resp.data.totalElements,
-                    numberOfElements: resp.data.numberOfElements
+                    size: resp.data.paginationDTO.size,
+                    page: resp.data.paginationDTO.number,
+                    totalPages: resp.data.paginationDTO.totalPages,
+                    totalElements: resp.data.paginationDTO.totalElements,
+                    numberOfElements: resp.data.paginationDTO.numberOfElements
                 })
-                if(resp.data.content.length === 0) {
+                if(resp.data.data.length === 0) {
                     setErrorMessage('User not found!');
                 }
             }).catch(error => console.log(error));
@@ -186,35 +187,37 @@ const UserList = () => {
                     ))}
                 </div>
             </div>
-            <div>
-            <div className='search-filter-container'>
-                <form onSubmit={(e) => handleFormSubmit(e)}>
-                    <select className='filter-dropdown' onChange={handleDropDown}>
-                        <option className="filter-option" defaultValue={'id'}>Id</option>
-                        <option className="filter-option" value="firstName">Firstname</option>
-                        <option className="filter-option" value="lastName">Lastname</option>
-                        <option className="filter-option" value="userName">Username</option>
-                        <option className="filter-option" value="email">Email</option>
-                        <option className="filter-option" value="status">Status</option>
-                    </select>
-                    <input className='search-input' type='text' value={searchFilter} onChange={handleSearchChange} />
-                    <button className='search-button'>Search</button>
-                </form>
-                
-            </div>
-            <div className='error-message'>{errorMessage}</div>
-            <Link to='/create-user'><button className='create-new-user'>Create new user</button></Link>
-            <Pagination
-                activePage={number + 1}
-                boundaryRange={0}
-                ellipsisItem={null}
-                firstItem={null}
-                lastItem={null}
-                siblingRange={1}
-                totalPages={pagination.totalPages}
-                onPageChange={(e) => changeCurrentPage(e)}
-                style={{ margin: 'auto', marginTop: '30px'}}
-            />
+            <div className='footer-wrapper'>
+
+                <div className='search-filter-container'>
+                    <form onSubmit={(e) => handleFormSubmit(e)}>
+                        <select className='filter-dropdown' onChange={handleDropDown}>
+                            <option className="filter-option" defaultValue={'id'}>Id</option>
+                            <option className="filter-option" value="firstName">Firstname</option>
+                            <option className="filter-option" value="lastName">Lastname</option>
+                            <option className="filter-option" value="userName">Username</option>
+                            <option className="filter-option" value="email">Email</option>
+                            <option className="filter-option" value="status">Status</option>
+                        </select>
+                        <input className='search-input' type='text' value={searchFilter} onChange={handleSearchChange} />
+                        <button className='search-button'>Search</button>
+                    </form>
+                </div>
+
+                <div className='error-message'>{errorMessage}</div>
+
+                <Link to='/create-user'><button className='create-new-user'>Create new user</button></Link>
+                <Pagination
+                    activePage={number + 1}
+                    boundaryRange={0}
+                    ellipsisItem={null}
+                    firstItem={null}
+                    lastItem={null}
+                    siblingRange={1}
+                    totalPages={pagination.totalPages}
+                    onPageChange={(e) => changeCurrentPage(e)}
+                    style={{ margin: 'auto', position: 'absolute', marginTop: '30px'}}
+                />
             </div>
         </div>
     )

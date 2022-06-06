@@ -32,8 +32,8 @@ const AssignPermission = () => {
                 password: resp.data.password,
                 email: resp.data.email,
                 status: resp.data.status,
-                authorities: [...resp.data.authorities],
-                code: resp.data.authorities.map(x => x.code)
+                authorities: [...resp.data.authority],
+                code: resp.data.authority.map(x => x.code)
             });
             }).catch(error => console.log(error));  
 
@@ -92,7 +92,7 @@ const AssignPermission = () => {
 
     useEffect(() => {
         if(!!readyToSend) {
-            axios.post('http://localhost:8080/users/add-authorities', user)
+            axios.post(`${baseUrl}/users/add-authorities`, user)
             .then((resp) => {
                 return navigate("/");
             }).catch(error => console.log(error)); 
@@ -106,8 +106,8 @@ const AssignPermission = () => {
                 <h3>User Details</h3>
                 {!!user && <div className="user-details">
                     <div>Firstname: {user.firstName}</div>
-                    <div>Lastname {user.lastName}</div>
-                    <div>Username {user.userName}</div>
+                    <div>Lastname: {user.lastName}</div>
+                    <div>Username: {user.userName}</div>
                     <div>Password: {user.password}</div>
                     <div>Email: {user.email}</div>
                     <div>Status: {user.status}</div>
@@ -120,14 +120,14 @@ const AssignPermission = () => {
                     <div className="roles-container">
                         {!!roles && roles.map((i, index) => (
                             <div className="perm-item" key={index+10000}>
-                                <input type='checkbox' name='check-permission' value={i.id} />
-                                <div className="">Id: {i.id}</div>
-                                <div>Code: {i.code}</div>
-                                <div>Description: {i.description}</div>
+                                <div className="perm-info">Id: {i.id}</div>
+                                <div className="perm-info">Code: {i.code}</div>
+                                <div className="perm-info-desc">Description: {i.description}</div>
+                                <input type='checkbox' className='check-permission' name='check-permission' value={i.id} />
                             </div>
                         ))}
                     </div>
-                    <button className='add-permissions'>+ Add Permissions</button>
+                    <button className='add-permissions'>Save</button>
                 </form>
             </div>
             

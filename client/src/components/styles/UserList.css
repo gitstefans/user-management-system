@@ -19,7 +19,7 @@
     margin-bottom: 10px;
 }
 .header-wrapper div {
-    width: 9%;
+    width: 9.35%;
     height: 50px;
     font-size: 14px;
     font-weight: bold;
@@ -34,7 +34,7 @@
     display: flex;
 }
 .body-item div {
-    width: 9%;
+    width: 9.35%;
     height: 36px;
     font-size: 14px;
     padding-top: 8px;
@@ -73,8 +73,7 @@
 .create-new-user {
     width: 130px;
     height: 40px;
-    position: absolute;
-    left: 120px;
+    margin-right: 50px;
     margin-top: 30px;
     background-color: rgb(49, 121, 253);
     font-size: 13px;
@@ -83,35 +82,41 @@
     color: white;
     font-weight: bold;
     cursor: pointer;
+    float: right;
 }
 .search-filter-container {
-    position: absolute;
-    margin-left: 300px;
+    margin-left: 40px;
     margin-top: 30px;
+    position: absolute;
 }
 .filter-dropdown {
     background-color: white;
     border: 2px solid lightgray;
     width: 120px;
-    height: 36px;
+    height: 40px;
 }
 .search-input {
     border: 1px solid lightgray;
-    height: 36px;
-    margin-left: 10px;
+    height: 40px;
+    width: 200px;
+    margin-left: 20px;
 }
 .search-button {
-    width: 90px;
+    width: 120px;
     height: 40px;
+    position: absolute;
     background-color: rgb(49, 121, 253);
     font-size: 13px;
     border: none;
     border-radius: 6px;
     color: white;
     font-weight: bold;
-    margin-left: 10px;
+    margin-left: 20px;
     cursor: pointer;
 }
 .error-message {
     color: red;
+}
+.footer-wrapper {
+    height: 200px;
 }

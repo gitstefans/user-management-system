@@ -2,46 +2,51 @@ package com.example.userManagementSystem.controllers;
 
 import com.example.userManagementSystem.domain.Authority;
 import com.example.userManagementSystem.domain.User;
+import com.example.userManagementSystem.dto.ResponseDTO;
+import com.example.userManagementSystem.dto.UserDTO;
+import com.example.userManagementSystem.mapper.UserMapper;
 import com.example.userManagementSystem.model.UserAuthorityModel;
 import com.example.userManagementSystem.model.UserModel;
 import com.example.userManagementSystem.repository.AuthorityRepository;
 import com.example.userManagementSystem.repository.UserRepository;
 import com.example.userManagementSystem.service.UserService;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.io.FilterOutputStream;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/users")
 public class UserController {
 
     private static final int DEFAULT_PAGE_SIZE = 10;
-    //private static final Sort DEFAULT_SORT = Sort.by(Sort.Direction.DESC, "id");
 
     private final UserRepository userRepository;
     private final UserService userService;
     private final AuthorityRepository authorityRepository;
+    private final UserMapper userMapper;
 
     public UserController(final UserRepository userRepository,
                           final UserService userService,
-                          final AuthorityRepository authorityRepository) {
+                          final AuthorityRepository authorityRepository,
+                          final UserMapper userMapper) {
         this.userRepository = userRepository;
         this.userService = userService;
         this.authorityRepository = authorityRepository;
+        this.userMapper = userMapper;
     }
 
-    @GetMapping("/")
-    public String home() {
-        return ("<h1>Welcome</>");
-    }
-
-    //@CrossOrigin
-    @GetMapping("/users")
-    //@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
-    public ResponseEntity allUsers(final Pageable pageable, final Sort sort) {
+    @GetMapping("/all-users")
+    public ResponseEntity<ResponseDTO<List<UserDTO>>> allUsers(final Pageable pageable, final Sort sort) {
 
         PageRequest pageRequest;
         Sort sortByParam;
@@ -58,40 +63,34 @@ public class UserController {
             pageRequest = PageRequest.of(pageable.getPageNumber(), DEFAULT_PAGE_SIZE, sortByParam);
         }
 
-        return ResponseEntity.ok(userRepository.findAll(pageRequest));
+        return ResponseEntity.ok(userMapper.toResponseDTO(userRepository.findAll(pageRequest)));
     }
 
-    @GetMapping("/users/{id}")
-    public User findUserById(@PathVariable("id") long id) {
-        return userRepository.findUserById(id);
+    @GetMapping("/{id}")
+    public UserDTO findUserById(@PathVariable("id") long id) {
+
+        return userMapper.toDto(userRepository.findUserById(id));
     }
 
-    @PostMapping("/users/add-user")
-    public void addUser(@RequestBody final UserModel userModel) {
+    @PostMapping("/add-user")
+    public ResponseEntity addUser(@RequestBody final UserModel userModel) throws Exception {
 
-        if(userModel != null) {
-            userService.saveUser(userModel);
-        }
-
+        return userService.saveUser(userModel);
     }
 
-    @PutMapping("/users/edit-user")
-    public void editUser(@RequestBody final UserModel userModel) {
-        User user = userRepository.findUserById(userModel.getId());
+    @PutMapping("/edit-user")
+    public ResponseEntity editUser(@RequestBody final UserModel userModel) {
 
-        if(user != null) {
-            userService.editUser(userModel, user);
-        }
-
+        return userService.editUser(userModel);
     }
 
-    @DeleteMapping("/users/delete-user/{id}")
+    @DeleteMapping("/delete-user/{id}")
     public void deleteUser(@PathVariable("id") long id) {
         userRepository.deleteById(id);
     }
 
 
-    @PostMapping("users/add-authorities")
+    @PostMapping("/add-authorities")
     public void addAuthorities(@RequestBody final UserAuthorityModel userAuthorityModel) {
         User user = userRepository.findUserById(userAuthorityModel.getId());
 
@@ -100,7 +99,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/users/authorities")
+    @GetMapping("/authorities")
     public ResponseEntity getAuthorities(final Pageable pageable) {
         PageRequest pageRequest;
 
@@ -115,7 +114,7 @@ public class UserController {
 
     /** filtering **/
 
-    @GetMapping("/users/filter/firstName")
+    @GetMapping("/filter/firstName")
     public ResponseEntity getUsersByFirstName(final Pageable pageable, final String firstName) {
         PageRequest pageRequest;
 
@@ -126,14 +125,12 @@ public class UserController {
         }
 
         if(firstName != null) {
-
-            return ResponseEntity.ok(userRepository.findAllByFirstName(firstName, pageable));
+            return ResponseEntity.ok(userMapper.toResponseDTO(userRepository.findAllByFirstName(firstName, pageRequest)));
         }
-
-        return ResponseEntity.ok("User not found");
+        return ResponseEntity.badRequest().body("User not found!");
     }
 
-    @GetMapping("/users/filter/lastName")
+    @GetMapping("/filter/lastName")
     public ResponseEntity getUsersByLastName(final Pageable pageable, final String lastName) {
         PageRequest pageRequest;
 
@@ -144,13 +141,13 @@ public class UserController {
         }
 
         if(lastName != null) {
-            return ResponseEntity.ok(userRepository.findAllByLastName(lastName, pageable));
+            return ResponseEntity.ok(userMapper.toResponseDTO(userRepository.findAllByLastName(lastName, pageRequest)));
         }
 
-        return ResponseEntity.ok("User not found");
+        return ResponseEntity.badRequest().body("User not found!");
     }
 
-    @GetMapping("/users/filter/userName")
+    @GetMapping("/filter/userName")
     public ResponseEntity getUsersByUserName(final Pageable pageable, final String userName) {
         PageRequest pageRequest;
 
@@ -161,13 +158,13 @@ public class UserController {
         }
 
         if(userName != null) {
-            return ResponseEntity.ok(userRepository.findAllByUserName(userName, pageable));
+            return ResponseEntity.ok(userMapper.toResponseDTO(userRepository.findAllByUserName(userName, pageRequest)));
         }
 
-        return ResponseEntity.ok("User not found");
+        return ResponseEntity.badRequest().body("User not found!");
     }
 
-    @GetMapping("/users/filter/email")
+    @GetMapping("/filter/email")
     public ResponseEntity getUsersByEmail(final Pageable pageable, final String email) {
         PageRequest pageRequest;
 
@@ -178,13 +175,13 @@ public class UserController {
         }
 
         if(email != null) {
-            return ResponseEntity.ok(userRepository.findAllByEmail(email, pageable));
+            return ResponseEntity.ok(userMapper.toResponseDTO(userRepository.findAllByEmail(email, pageRequest)));
         }
 
-        return ResponseEntity.ok("User not found");
+        return ResponseEntity.badRequest().body("User not found!");
     }
 
-    @GetMapping("/users/filter/status")
+    @GetMapping("/filter/status")
     public ResponseEntity getUsersByStatus(final Pageable pageable, final String status) {
         PageRequest pageRequest;
 
@@ -195,10 +192,10 @@ public class UserController {
         }
 
         if(status != null) {
-            return ResponseEntity.ok(userRepository.findAllByStatus(status, pageable));
+            return ResponseEntity.ok(userMapper.toResponseDTO(userRepository.findAllByStatus(status, pageRequest)));
         }
 
-        return ResponseEntity.ok("User not found");
+        return ResponseEntity.badRequest().body("User not found!");
     }
 
 }

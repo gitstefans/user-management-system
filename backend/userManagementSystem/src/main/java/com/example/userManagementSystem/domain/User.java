@@ -8,6 +8,7 @@ import lombok.ToString;
 import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -20,6 +21,7 @@ import java.util.Set;
 @Entity
 @Table(name = "Users")
 public class User implements Serializable {
+
     @Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -33,10 +35,9 @@ public class User implements Serializable {
     private String lastName;
 
     @NotNull
-    @Column(nullable = false, name = "user_name", length = 30)
+    @Column(nullable = false, name = "user_name", length = 30, unique = true)
     private String userName;
 
-    //@JsonIgnore
     @NotNull
     @Column(name = "password_hash", nullable = false)
     private String password;

@@ -17,6 +17,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "Authority")
 public class Authority implements Serializable {
+
     @Id
     private long id;
 

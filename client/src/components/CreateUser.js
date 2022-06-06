@@ -37,23 +37,30 @@ const CreateUser = () => {
 
         axios.post(`${baseUrl}/users/add-user`, createUser)
             .then((resp) => {
-                return navigate("/");
-            }).catch(error => console.log(error));   
+                console.log('resp', resp);
+                navigate("/");
+            }).catch(error => {
+                console.log('er', error.response.data);
+                setErrorMessage(error.response.data);
+            });   
     }
 
     return (
         <div className="create-user-container">
-            <h3>Create new user</h3>
-            <form onSubmit={(e) => handleSubmit(e)}>
-                <input className='input-create' type='text' name='firstName' value={createUser.firstName} onChange={handleChange} placeholder='Firstname' required />
-                <input className='input-create' type='text' name='lastName' value={createUser.lastName} onChange={handleChange} placeholder='Lastname' required />
-                <input className='input-create' type='text' name='userName' value={createUser.userName} onChange={handleChange} placeholder='Username' required />
-                <input className='input-create' type='text' name='password' value={createUser.password} onChange={handleChange} placeholder='Password' required />
-                <input className='input-create' type='text' name='email' value={createUser.email} onChange={handleChange} placeholder='Email' required />
-                <input className='input-create' type='text' name='status' value={createUser.status} onChange={handleChange} placeholder='Status' required />
-                <button className='save-btn'>Save</button>
-            </form>
-            <div className='error-message'>{errorMessage}</div>
+            <div className='form-wrapper'>
+                <h3 className='title-create'>Create new user</h3>
+                <form className='form-wrapper-form' onSubmit={(e) => handleSubmit(e)}>
+                    <input className='input-create' type='text' name='firstName' value={createUser.firstName} onChange={handleChange} placeholder='Firstname' required />
+                    <input className='input-create' type='text' name='lastName' value={createUser.lastName} onChange={handleChange} placeholder='Lastname' required />
+                    <input className='input-create' type='text' name='userName' value={createUser.userName} onChange={handleChange} placeholder='Username' required />
+                    <input className='input-create' type='text' name='password' value={createUser.password} onChange={handleChange} placeholder='Password' required />
+                    <input className='input-create' type='text' name='email' value={createUser.email} onChange={handleChange} placeholder='Email' required />
+                    <input className='input-create' type='text' name='status' value={createUser.status} onChange={handleChange} placeholder='Status' required />
+                    <button className='save-btn'>Save</button>
+                </form>
+                <div className='error-message'>{errorMessage}</div>
+            </div>
+            
         </div>
     )
 }
