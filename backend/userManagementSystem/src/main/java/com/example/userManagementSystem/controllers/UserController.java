@@ -92,11 +92,7 @@ public class UserController {
 
     @PostMapping("/add-authorities")
     public void addAuthorities(@RequestBody final UserAuthorityModel userAuthorityModel) {
-        User user = userRepository.findUserById(userAuthorityModel.getId());
-
-        if(user != null) {
-            userService.addAuthority(user, userAuthorityModel);
-        }
+            userService.addAuthority(userAuthorityModel);
     }
 
     @GetMapping("/authorities")

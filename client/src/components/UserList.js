@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Pagination } from 'semantic-ui-react';
 import './styles/UserList.css';
 import { useNavigate } from "react-router-dom";
+import history from '../history';
 
 const UserList = () => {
     const [list, setList] = useState([]);
@@ -13,6 +14,7 @@ const UserList = () => {
     const [searchFilter, setSearchFilter] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [dropDown, setDropDown] = useState('');
+    const [isFilter, setIsFilter] = useState(false);
     let navigate = useNavigate();
     const [pagination, setPagination] = useState({
         size: 10,
@@ -50,8 +52,16 @@ const UserList = () => {
 
     useEffect(() => {
         setErrorMessage('');
-        axios.get(`${baseUrl}/users/all-users?page=${number}&sort=${sortFilter}`)
-            .then((resp) => {
+        let url;
+        
+        if(isFilter == false) {
+            url = `${baseUrl}/users/all-users?page=${number}&sort=${sortFilter}`;
+        } else {
+            url = `${baseUrl}/users/filter/${dropDown}?page=${number}&${dropDown}=${searchFilter}`;
+        }
+
+        axios.get(url)
+            .then(resp => {
                 setList(resp.data.data.map((i, index) => ({
                     id: i.id,
                     firstName: i.firstName,
@@ -70,10 +80,13 @@ const UserList = () => {
                     totalElements: resp.data.paginationDTO.totalElements,
                     numberOfElements: resp.data.paginationDTO.numberOfElements
                 })
-            })
-            .catch(e => console.log(e));
+                if(resp.data.data.length === 0) {
+                    setErrorMessage('User not found!');
+                }
+            }).catch(error => console.log(error));
         
-    }, [number, sortFilter]);
+        
+    }, [number, sortFilter, isFilter]);
 
     // sortiranje
 
@@ -99,11 +112,12 @@ const UserList = () => {
     const handleFormSubmit = (e) => {
         e.preventDefault();
         setErrorMessage('');
+        setIsFilter(true);
+        setNumber(0);
 
         if(!!searchFilter) {
             axios.get(`${baseUrl}/users/filter/${dropDown}?${dropDown}=${searchFilter}`)
             .then(resp => {
-                console.log('resp', resp);
                 setList(resp.data.data.map((i, index) => ({
                     id: i.id,
                     firstName: i.firstName,
@@ -153,6 +167,11 @@ const UserList = () => {
             }).catch(error => console.log(error));
     }
 
+    function resetFilter() {
+        setIsFilter(false);
+        setSearchFilter('');
+    }
+
     return (
         <div className='userList-container'>
             <div className="table-wrapper">
@@ -187,8 +206,9 @@ const UserList = () => {
                     ))}
                 </div>
             </div>
+            <div className='error-message'>{errorMessage}</div>
             <div className='footer-wrapper'>
-
+                
                 <div className='search-filter-container'>
                     <form onSubmit={(e) => handleFormSubmit(e)}>
                         <select className='filter-dropdown' onChange={handleDropDown}>
@@ -202,9 +222,10 @@ const UserList = () => {
                         <input className='search-input' type='text' value={searchFilter} onChange={handleSearchChange} />
                         <button className='search-button'>Search</button>
                     </form>
+                    <button className='reset-filter-button' onClick={() => resetFilter()}>Reset filter</button>
                 </div>
 
-                <div className='error-message'>{errorMessage}</div>
+                {/* <div className='error-message'>{errorMessage}</div> */}
 
                 <Link to='/create-user'><button className='create-new-user'>Create new user</button></Link>
                 <Pagination

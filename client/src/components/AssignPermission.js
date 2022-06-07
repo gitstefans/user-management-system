@@ -115,7 +115,6 @@ const AssignPermission = () => {
             </div>
             <div className="permissions">
                 <h3 className="perm-title">Permissions</h3>
-                
                 <form className="permission-form" onSubmit={(e) => submitForm(e)}>
                     <div className="roles-container">
                         {!!roles && roles.map((i, index) => (
@@ -130,9 +129,6 @@ const AssignPermission = () => {
                     <button className='add-permissions'>Save</button>
                 </form>
             </div>
-            
-            
-            
         </div>
     )
 }
