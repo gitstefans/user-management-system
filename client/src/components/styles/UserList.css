@@ -8,7 +8,7 @@
 .table-wrapper {
     padding-top: 10px;
     border-radius: 6px;
-    margin-top: 40px;
+    margin-top: 20px;
     height: 700px;
     background-color: white;
 }
@@ -114,9 +114,24 @@
     margin-left: 20px;
     cursor: pointer;
 }
+.reset-filter-button {
+    width: 120px;
+    height: 40px;
+    position: absolute;
+    background-color: rgb(49, 121, 253);
+    font-size: 13px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    margin-left: 330px;
+    margin-top: -40px;
+    cursor: pointer;
+}
 .error-message {
     color: red;
+    height: 30px;
 }
 .footer-wrapper {
-    height: 200px;
+    margin-top: 30px;
 }

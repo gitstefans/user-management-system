@@ -15,27 +15,12 @@ import java.util.List;
 @ToString
 public class UserDTO {
 
-    @JsonProperty("id")
     private Long id;
-
-    @JsonProperty("firstName")
     private String firstName;
-
-    @JsonProperty("lastName")
     private String lastName;
-
-    @JsonProperty("userName")
     private String userName;
-
-    @JsonProperty("password")
     private String password;
-
-    @JsonProperty("email")
     private String email;
-
-    @JsonProperty("status")
     private String status;
-
-    @JsonProperty("authority")
     private List<Authority> authority;
 }

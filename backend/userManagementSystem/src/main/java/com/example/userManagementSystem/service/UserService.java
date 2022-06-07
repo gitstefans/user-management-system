@@ -75,6 +75,8 @@ public class UserService {
                     return ResponseEntity.badRequest().body(e.getMessage());
                 }
             }
+        } else {
+            return ResponseEntity.badRequest().body("User is null!");
         }
         return ResponseEntity.ok("User saved successfully!");
     }
@@ -87,35 +89,40 @@ public class UserService {
             return ResponseEntity.badRequest().body("User not found!");
         }
 
-        if(userModel.getFirstName() == null || userModel.getFirstName().isEmpty() || userModel.getFirstName().isBlank()) {
-            return ResponseEntity.badRequest().body("Firstname is required!");
-        }
-        if(userModel.getLastName() == null || userModel.getLastName().isEmpty() || userModel.getLastName().isBlank()) {
-            return ResponseEntity.badRequest().body("Lastname is required!");
-        }
-        if(userModel.getEmail() == null || userModel.getEmail().isEmpty() || userModel.getEmail().isBlank()) {
-            return ResponseEntity.badRequest().body("Email is required!");
-        }
-        if(userModel.getStatus() == null || userModel.getStatus().isEmpty() || userModel.getStatus().isBlank()) {
-            return ResponseEntity.badRequest().body("Status is required!");
-        }
-
         if(userModel != null) {
-            
+
+            if(userModel.getFirstName() == null || userModel.getFirstName().isEmpty() || userModel.getFirstName().isBlank()) {
+                return ResponseEntity.badRequest().body("Firstname is required!");
+            }
+            if(userModel.getLastName() == null || userModel.getLastName().isEmpty() || userModel.getLastName().isBlank()) {
+                return ResponseEntity.badRequest().body("Lastname is required!");
+            }
+            if(userModel.getEmail() == null || userModel.getEmail().isEmpty() || userModel.getEmail().isBlank()) {
+                return ResponseEntity.badRequest().body("Email is required!");
+            }
+            if(userModel.getStatus() == null || userModel.getStatus().isEmpty() || userModel.getStatus().isBlank()) {
+                return ResponseEntity.badRequest().body("Status is required!");
+            }
+
             user.setFirstName(userModel.getFirstName().trim());
             user.setLastName(userModel.getLastName().trim());
             user.setEmail(userModel.getEmail().trim());
             user.setStatus(userModel.getStatus().trim());
 
             userRepository.saveAndFlush(user);
+        } else {
+            return ResponseEntity.badRequest().body("User is null!");
         }
 
         return ResponseEntity.ok("User edited successfully!");
     }
 
-    public void addAuthority(final User user,final UserAuthorityModel userAuthorityModel) {
+    public void addAuthority(final UserAuthorityModel userAuthorityModel) {
+        User user = userRepository.findUserById(userAuthorityModel.getId());
 
-        user.setAuthorities(userAuthorityModel.getAuthority());
-        userRepository.saveAndFlush(user);
+        if(user != null) {
+            user.setAuthorities(userAuthorityModel.getAuthority());
+            userRepository.saveAndFlush(user);
+        }
     }
 }
